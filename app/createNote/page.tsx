@@ -33,6 +33,13 @@ export default function Page() {
           <p className="rounded-md bg-slate-100 p-1 text-slate-700 text-xs">To do</p>
           <p className="text-sm font-normal text-slate-700">할일</p>
         </div>
+        <div className="w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-3 flex gap-4 items-center mb-6">
+          <IconClose circleFill="fill-blue-500" className="cursor-pointer" />
+          <p className="font-semibold text-sm grow">임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?</p>
+          <button className="rounded-full bg-white border border-blue-500 text-blue-500 text-sm font-semibold py-2 px-4">
+            불러오기
+          </button>
+        </div>
         <hr />
         <form className="grow w-full h-fit relative flex flex-col">
           <div className="w-full relative h-7 my-3">
