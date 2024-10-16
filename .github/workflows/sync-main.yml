@@ -1,0 +1,20 @@
+name: Sync Main Branch
+
+on:
+  repository_dispatch:
+    types: [main_updated]
+
+jobs:
+  trigger-sync:
+    if: github.repository == 'ahrrrl/slid-todo-deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync fork
+        run: |
+          git remote add upstream https://github.com/FESI-4-4/slid-todo.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main
+          git push origin main

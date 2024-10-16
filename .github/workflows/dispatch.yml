@@ -1,0 +1,30 @@
+name: Dispatch Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  trigger-fork:
+    if: github.repository_owner == 'FESI-4-4'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine Event Type
+        id: event_type
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "event_type=main_updated" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            echo "event_type=develop_updated" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger repository_dispatch
+        run: |
+          curl -X POST \
+          -H "Authorization: token ${{ secrets.SLID }}" \
+          -H "Accept: application/vnd.github.everest-preview+json" \
+          "https://api.github.com/repos/ahrrrl/slid-todo-deploy/dispatches" \
+          -d "{\"event_type\": \"${{ steps.event_type.outputs.event_type }}\"}"

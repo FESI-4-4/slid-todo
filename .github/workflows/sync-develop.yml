@@ -1,0 +1,20 @@
+name: Sync Develop Branch
+
+on:
+  repository_dispatch:
+    types: [develop_updated]
+
+jobs:
+  trigger-sync-develop:
+    if: github.repository == 'ahrrrl/slid-todo-deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync develop
+        run: |
+          git remote add upstream https://github.com/FESI-4-4/slid-todo.git
+          git fetch upstream
+          git checkout develop
+          git merge upstream/develop
+          git push origin develop
