@@ -1,4 +1,5 @@
 import IconAddLink from '@/public/icons/IconAddLink';
+import IconCheck from '@/public/icons/IconCheck';
 import IconClose from '@/public/icons/IconClose';
 import IconEmbed from '@/public/icons/IconEmbed';
 import IconFlag from '@/public/icons/IconFlag';
@@ -82,6 +83,12 @@ export default function Page() {
             </div>
             <div className="grow flex justify-end">
               <IconAddLink className="cursor-pointer hover:bg-slate-100" />
+            </div>
+            <div className="absolute top-0 -translate-y-full w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-6 -ml-4 -mt-4 flex gap-2 items-center">
+              <IconCheck />
+              <p className="font-semibold text-sm">
+                임시 저장이 완료되었습니다 <span className="text-xs font-medium">ㆍ {}초전</span>
+              </p>
             </div>
           </div>
         </form>
