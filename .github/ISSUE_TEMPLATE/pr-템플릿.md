@@ -3,7 +3,7 @@ name: PR 템플릿
 about: PR 관련
 title: ''
 labels: ''
-assignees: ahrrrl
+assignees: ''
 
 ---
 
