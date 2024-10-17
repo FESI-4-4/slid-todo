@@ -11,6 +11,7 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { twMerge } from 'tailwind-merge';
 
 const ModalContext = createContext({ isOpen: false, handleOpen: () => {}, handleClose: () => {} });
 
@@ -44,7 +45,7 @@ const ModalTrigger = ({ children, ...props }: ComponentPropsWithoutRef<'button'>
   );
 };
 
-const ModalContent = ({ children, ...props }: ComponentPropsWithoutRef<'div'>) => {
+const ModalContent = ({ className, children, ...props }: ComponentPropsWithoutRef<'div'>) => {
   const { isOpen, handleClose } = useModalContext();
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -60,7 +61,7 @@ const ModalContent = ({ children, ...props }: ComponentPropsWithoutRef<'div'>) =
         createPortal(
           <div className='fixed inset-0 flex justify-center items-center' onClick={handleClickOverlay}>
             <div className='absolute inset-0 bg-black opacity-50'></div>
-            <div className='p-6 rounded-xl bg-white z-10' ref={ref} {...props}>
+            <div className={twMerge('p-6 rounded-xl bg-white z-10', className)} ref={ref} {...props}>
               {children}
             </div>
           </div>,
