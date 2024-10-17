@@ -67,10 +67,10 @@ const InputSlid: React.FC<InputSlidProps> = ({
           {label}
         </label>
       )}
-      <div className="relative">
+      <div className='relative'>
         {type === 'select' ? (
           <select className={`${baseInputClass} appearance-none pr-10`} value={value} onChange={onChange}>
-            <option disabled value="">
+            <option disabled value=''>
               {placeholder || '선택하세요'}
             </option>
             {options.map((option) => (
@@ -92,16 +92,16 @@ const InputSlid: React.FC<InputSlidProps> = ({
 
         {type === 'password' && (
           <button
-            type="button"
+            type='button'
             onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            className='absolute inset-y-0 right-0 pr-3 flex items-center'
           >
             {showPassword ? <IconVisibilityOn /> : <IconVisibilityOff />}
           </button>
         )}
 
         {type === 'select' && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <div className='absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
             <IconArrowDown />
           </div>
         )}
