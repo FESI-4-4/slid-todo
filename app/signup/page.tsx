@@ -1,4 +1,5 @@
 import AuthContainer from '@/components/AuthContainer';
+import SignUpForm from '@/components/SignUpForm';
 
 const link = {
   text: '이미 회원이신가요?',
@@ -9,7 +10,7 @@ const link = {
 export default function SignUp() {
   return (
     <AuthContainer link={link}>
-      <div>폼위치</div>
+      <SignUpForm />
     </AuthContainer>
   );
 }

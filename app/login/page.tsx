@@ -1,4 +1,5 @@
 import AuthContainer from '@/components/AuthContainer';
+import LoginForm from '@/components/LoginForm';
 
 const link = {
   text: '슬리드 투 두가 처음이신가요?',
@@ -9,7 +10,7 @@ const link = {
 export default function Login() {
   return (
     <AuthContainer link={link}>
-      <div>폼위치</div>
+      <LoginForm />
     </AuthContainer>
   );
 }
