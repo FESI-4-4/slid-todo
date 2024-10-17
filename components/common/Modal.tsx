@@ -2,8 +2,11 @@
 
 import IconModalClose from '@/public/icons/IconModalClose';
 import {
+  Children,
+  cloneElement,
   ComponentPropsWithoutRef,
   createContext,
+  isValidElement,
   MouseEventHandler,
   PropsWithChildren,
   useContext,
@@ -71,12 +74,27 @@ const ModalContent = ({ className, children, ...props }: ComponentPropsWithoutRe
   );
 };
 
-const ModalClose = ({ ...props }: ComponentPropsWithoutRef<'button'>) => {
+const ModalClose = ({
+  asChild = false,
+  children,
+  ...props
+}: ComponentPropsWithoutRef<'button'> & { asChild?: boolean }) => {
   const { handleClose } = useModalContext();
+
+  if (asChild && Children.count(children) === 1 && isValidElement(children)) {
+    return cloneElement(children, {
+      ...props,
+      ...children.props,
+      onClick: () => {
+        if (children.props.onClick) children.props.onClick();
+        handleClose();
+      },
+    });
+  }
 
   return (
     <button onClick={handleClose} {...props}>
-      <IconModalClose />
+      {children ? children : <IconModalClose />}
     </button>
   );
 };
