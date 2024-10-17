@@ -1,5 +1,6 @@
 'use client';
 
+import IconModalClose from '@/public/icons/IconModalClose';
 import {
   ComponentPropsWithoutRef,
   createContext,
@@ -69,4 +70,14 @@ const ModalContent = ({ children, ...props }: ComponentPropsWithoutRef<'div'>) =
   );
 };
 
-export { ModalProvider, ModalTrigger, ModalContent };
+const ModalClose = ({ ...props }: ComponentPropsWithoutRef<'button'>) => {
+  const { handleClose } = useModalContext();
+
+  return (
+    <button onClick={handleClose} {...props}>
+      <IconModalClose />
+    </button>
+  );
+};
+
+export { ModalProvider, ModalTrigger, ModalContent, ModalClose };
