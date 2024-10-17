@@ -13,7 +13,7 @@ const NavGoal = () => {
       <div className='flex-grow flex-col'>
         <div className='text-lg font-medium text-slate-800'>목표</div>
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center sm:hidden lg:hidden mr-5'>
         <ButtonSlid variant='outlined' className='gap-[2px] rounded-xl text-sm w-[84px] px-3 py-2'>
           <IconPlusSmall stroke='#3B82F6' />
           <span>새 목표</span>

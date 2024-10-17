@@ -13,7 +13,7 @@ const NavDashBoard = () => {
       <div className='flex-grow flex-col'>
         <div className='text-lg font-medium text-slate-800'>대시보드</div>
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center sm:hidden lg:hidden mr-5'>
         <ButtonSlid className='gap-[2px] rounded-xl text-sm w-[84px] px-3 py-2'>
           <IconPlusSmall />
           <span>새 할 일</span>
