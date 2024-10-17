@@ -37,7 +37,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
     // if (window.localStorage.getItem('savedNote')) ;
     const id = setInterval(() => {
       window.localStorage.setItem(
-        'savedNote',
+        'savedNote' + todoId,
         JSON.stringify({ todoId, title: titleRef.current?.value, content: contentRef.current?.value })
       );
     }, 1000 * 60 * 5);
