@@ -13,11 +13,22 @@ import IconTextColor from '@/public/icons/IconTextColor';
 import IconTextItalics from '@/public/icons/IconTextItalics';
 import IconTextNumberPoint from '@/public/icons/IconTextNumberPoint';
 import IconTextUnderline from '@/public/icons/IconTextUnderline';
+import { ChangeEventHandler, useState } from 'react';
 
-const NoteForm = () => {
+type NoteFormProps = {
+  title?: string;
+  content?: string;
+};
+
+const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteFormProps) => {
+  const [title, setTitle] = useState(initTitle);
+  const [content, setContent] = useState(initContent);
+
+  const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) => setTitle(e.target.value);
+  const handleChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => setContent(e.target.value);
+
   return (
     <>
-      {' '}
       <div className='w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-3 flex gap-4 items-center mb-6'>
         <IconClose circleFill='fill-blue-500' className='cursor-pointer' />
         <p className='font-semibold text-sm grow'>임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?</p>
@@ -31,6 +42,8 @@ const NoteForm = () => {
           <input
             className='w-full text-lg font-medium focus-visible:outline-none'
             placeholder='노트의 제목을 입력해주세요'
+            value={title}
+            onChange={handleChangeTitle}
           />
           <p className='absolute right-0 top-0 text-slate-800 font-medium text-xs'>
             {22}/<span className='text-blue-500'>30</span>
@@ -55,6 +68,8 @@ const NoteForm = () => {
           <textarea
             placeholder='이 곳을 클릭해 노트 작성을 시작해주세요'
             className='resize-none w-full h-full focus-visible:outline-none text-slate-700'
+            value={content}
+            onChange={handleChangeContent}
           />
         </div>
         <div className='w-full border border-slate-200 rounded-full py-2.5 px-4 absolute bottom-0 bg-white flex gap-4'>
