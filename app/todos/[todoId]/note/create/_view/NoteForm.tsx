@@ -4,6 +4,7 @@ import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
 import IconClose from '@/public/icons/IconClose';
 import IconEmbed from '@/public/icons/IconEmbed';
+import IconFlag from '@/public/icons/IconFlag';
 import IconTextAlignLeft from '@/public/icons/IconTextAlignLeft';
 import IconTextAlignMiddle from '@/public/icons/IconTextAlignMiddle';
 import IconTextAlignRight from '@/public/icons/IconTextAlignRight';
@@ -33,8 +34,18 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
+  const handleSave = () =>
+    window.localStorage.setItem(`savedNote${todoId}`, JSON.stringify({ todoId, title, content }));
+
   useEffect(() => {
-    // if (window.localStorage.getItem('savedNote')) ;
+    // const savedNote = window.localStorage.getItem('savedNote' + todoId);
+
+    // if (savedNote) {
+    //   const note = JSON.parse(savedNote);
+    //   setTitle(note.title);
+    //   setContent(note.content);
+    // }
+
     const id = setInterval(() => {
       window.localStorage.setItem(
         'savedNote' + todoId,
@@ -47,6 +58,24 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
 
   return (
     <>
+      <div className='flex w-full items-center mb-4'>
+        <h1 className='grow text-slate-900 font-semibold text-lg'>노트 작성</h1>
+        <button className='py-3 px-5 text-blue-500 font-semibold text-sm mr-2' onClick={handleSave}>
+          임시저장
+        </button>
+        <button className='py-3 px-5 bg-blue-500 rounded-xl text-white font-semibold'>작성 완료</button>
+      </div>
+      <div className='flex w-full gap-1.5 mb-3'>
+        <div className='flex justify-center items-center rounded-md bg-slate-800 w-6 h-6'>
+          <IconFlag />
+        </div>
+        <p className='font-medium text-base text-slate-800'>목표</p>
+      </div>
+      <div className='flex w-full gap-2 mb-6'>
+        <p className='rounded-md bg-slate-100 p-1 text-slate-700 text-xs'>To do</p>
+        <p className='text-sm font-normal text-slate-700'>할일</p>
+      </div>
+
       <div className='w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-3 flex gap-4 items-center mb-6'>
         <IconClose circleFill='fill-blue-500' className='cursor-pointer' />
         <p className='font-semibold text-sm grow'>임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?</p>
