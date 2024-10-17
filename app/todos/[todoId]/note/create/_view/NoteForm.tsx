@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/common/ButtonSlid';
 import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
 import IconClose from '@/public/icons/IconClose';
@@ -63,7 +64,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
         <button className='py-3 px-5 text-blue-500 font-semibold text-sm mr-2' onClick={handleSave}>
           임시저장
         </button>
-        <button className='py-3 px-5 bg-blue-500 rounded-xl text-white font-semibold'>작성 완료</button>
+        <Button disabled={!title.length || !content.length}>작성 완료</Button>
       </div>
       <div className='flex w-full gap-1.5 mb-3'>
         <div className='flex justify-center items-center rounded-md bg-slate-800 w-6 h-6'>
