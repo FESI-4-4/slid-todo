@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/common/ButtonSlid';
+import { ModalClose, ModalContent, ModalProvider, ModalTrigger } from '@/components/common/Modal';
 import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
 import IconClose from '@/public/icons/IconClose';
@@ -16,7 +17,7 @@ import IconTextItalics from '@/public/icons/IconTextItalics';
 import IconTextNumberPoint from '@/public/icons/IconTextNumberPoint';
 import IconTextUnderline from '@/public/icons/IconTextUnderline';
 import { useParams } from 'next/navigation';
-import { ChangeEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type NoteFormProps = {
   title?: string;
@@ -49,20 +50,25 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
     }, 1000 * 5);
   }, [todoId]);
 
-  useEffect(() => {
-    // const savedNote = window.localStorage.getItem('savedNote' + todoId);
+  const savedNote = useMemo(() => {
+    const item = window.localStorage.getItem('savedNote' + todoId);
+    return item && JSON.parse(item);
+  }, [todoId]);
 
-    // if (savedNote) {
-    //   const note = JSON.parse(savedNote);
-    //   setTitle(note.title);
-    //   setContent(note.content);
-    // }
+  const handleOpenSaved = () => {
+    setTitle(savedNote.title.length ? savedNote.title : '제목없음');
+    setContent(savedNote.content);
+  };
+
+  useEffect(() => {
+    if (savedNote) setOpenSavedToast(true);
+
     const id = setInterval(() => {
       handleSave();
     }, 1000 * 60 * 5);
 
     return () => clearInterval(id);
-  }, [handleSave]);
+  }, [handleSave, todoId, savedNote]);
 
   return (
     <>
@@ -84,13 +90,33 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
         <p className='text-sm font-normal text-slate-700'>할일</p>
       </div>
 
-      <div className='w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-3 flex gap-4 items-center mb-6'>
-        <IconClose circleFill='fill-blue-500' className='cursor-pointer' />
-        <p className='font-semibold text-sm grow'>임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?</p>
-        <button className='rounded-full bg-white border border-blue-500 text-blue-500 text-sm font-semibold py-2 px-4'>
-          불러오기
-        </button>
-      </div>
+      {openSavedToast && (
+        <div className='w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-3 flex gap-4 items-center mb-6'>
+          <IconClose circleFill='fill-blue-500' className='cursor-pointer' />
+          <p className='font-semibold text-sm grow'>임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?</p>
+          <ModalProvider>
+            <ModalTrigger className='rounded-full bg-white border border-blue-500 text-blue-500 text-sm font-semibold py-2 px-4'>
+              불러오기
+            </ModalTrigger>
+            <ModalContent className='max-w-[450px] flex flex-col items-center w-full'>
+              <p className='font-medium mt-2'>&apos;{savedNote.title.length ? savedNote.title : '제목없음'}&apos;</p>
+              <p className='font-medium mb-8'>제목의 노트를 불러오시겠어요?</p>
+              <div className='flex gap-2'>
+                <ModalClose asChild>
+                  <Button variant='outlined' className='w-[120px]'>
+                    취소
+                  </Button>
+                </ModalClose>
+                <ModalClose asChild>
+                  <Button onClick={handleOpenSaved} className='w-[120px]'>
+                    불러오기
+                  </Button>
+                </ModalClose>
+              </div>
+            </ModalContent>
+          </ModalProvider>
+        </div>
+      )}
       <hr />
       <form className='grow w-full h-fit relative flex flex-col'>
         <div className='w-full relative h-7 my-3'>
