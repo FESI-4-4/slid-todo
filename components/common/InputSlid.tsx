@@ -48,21 +48,25 @@ const InputSlid: React.FC<InputSlidProps> = ({
       'w-full px-6 py-3 rounded-xl',
       'bg-slate-50 text-slate-800 placeholder-slate-400',
       'focus:outline-none focus:ring-1 focus:ring-blue-500',
-      'text-sm sm:text-base lg:text-base',
+      'text-sm sm:text-base',
       error && 'ring-1 ring-red-700',
       inputClassName
     )
   );
 
   const labelClass = twMerge(
-    clsx('block font-medium text-slate-800 mb-1', 'text-sm sm:text-base lg:text-base', labelClassName)
+    clsx('block text-base font-semibold text-slate-800 mb-3', 'text-sm sm:text-base', labelClassName)
   );
 
-  const errorClass = twMerge(clsx('mt-2 ml-4 text-red-700', 'text-sm sm:text-base lg:text-base', errorClassName));
+  const errorClass = twMerge(clsx('mt-2 ml-4 text-red-700', 'text-xs sm:text-sm', errorClassName));
 
   return (
     <div className={twMerge('mb-4', className)}>
-      {label && <label className={labelClass}>{label}</label>}
+      {label && (
+        <label htmlFor={label} className={labelClass}>
+          {label}
+        </label>
+      )}
       <div className="relative">
         {type === 'select' ? (
           <select className={`${baseInputClass} appearance-none pr-10`} value={value} onChange={onChange}>
@@ -77,6 +81,7 @@ const InputSlid: React.FC<InputSlidProps> = ({
           </select>
         ) : (
           <input
+            id={label}
             type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
             className={baseInputClass}
             placeholder={placeholder}
