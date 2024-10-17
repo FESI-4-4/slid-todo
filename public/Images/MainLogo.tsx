@@ -55,9 +55,9 @@ const MainLogo = (props: SVGProps<SVGSVGElement>) => {
             id='Vector 684'
             d='M11.1621 23.1953L15.0795 27.7655L22.9142 18.625'
             stroke='#F8FAFC'
-            stroke-width='3.1339'
-            stroke-linecap='round'
-            stroke-linejoin='round'
+            strokeWidth='3.1339'
+            strokeLinecap='round'
+            strokeLinejoin='round'
           />
         </g>
       </g>
