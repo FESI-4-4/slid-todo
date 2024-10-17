@@ -57,9 +57,9 @@ const ModalContent = ({ children, ...props }: ComponentPropsWithoutRef<'div'>) =
     <>
       {isOpen &&
         createPortal(
-          <div className="fixed inset-0 flex justify-center items-center" onClick={handleClickOverlay}>
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className="p-6 rounded-xl bg-white z-10" ref={ref} {...props}>
+          <div className='fixed inset-0 flex justify-center items-center' onClick={handleClickOverlay}>
+            <div className='absolute inset-0 bg-black opacity-50'></div>
+            <div className='p-6 rounded-xl bg-white z-10' ref={ref} {...props}>
               {children}
             </div>
           </div>,
