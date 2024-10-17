@@ -16,7 +16,7 @@ import IconTextItalics from '@/public/icons/IconTextItalics';
 import IconTextNumberPoint from '@/public/icons/IconTextNumberPoint';
 import IconTextUnderline from '@/public/icons/IconTextUnderline';
 import { useParams } from 'next/navigation';
-import { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+import { ChangeEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 
 type NoteFormProps = {
   title?: string;
@@ -35,8 +35,19 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSave = () =>
-    window.localStorage.setItem(`savedNote${todoId}`, JSON.stringify({ todoId, title, content }));
+  const [savedToast, setSavedToast] = useState(false);
+  const [openSavedToast, setOpenSavedToast] = useState(false);
+
+  const handleSave = useCallback(() => {
+    window.localStorage.setItem(
+      'savedNote' + todoId,
+      JSON.stringify({ todoId, title: titleRef.current?.value, content: contentRef.current?.value })
+    );
+    setSavedToast(true);
+    setTimeout(() => {
+      setSavedToast(false);
+    }, 1000 * 5);
+  }, [todoId]);
 
   useEffect(() => {
     // const savedNote = window.localStorage.getItem('savedNote' + todoId);
@@ -46,16 +57,12 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
     //   setTitle(note.title);
     //   setContent(note.content);
     // }
-
     const id = setInterval(() => {
-      window.localStorage.setItem(
-        'savedNote' + todoId,
-        JSON.stringify({ todoId, title: titleRef.current?.value, content: contentRef.current?.value })
-      );
+      handleSave();
     }, 1000 * 60 * 5);
 
     return () => clearInterval(id);
-  }, []);
+  }, [handleSave]);
 
   return (
     <>
@@ -141,12 +148,14 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
           <div className='grow flex justify-end'>
             <IconAddLink className='cursor-pointer hover:bg-slate-100' />
           </div>
-          <div className='absolute top-0 -translate-y-full w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-6 -ml-4 -mt-4 flex gap-2 items-center'>
-            <IconCheck />
-            <p className='font-semibold text-sm'>
-              임시 저장이 완료되었습니다 <span className='text-xs font-medium'>ㆍ {}초전</span>
-            </p>
-          </div>
+          {savedToast && (
+            <div className='absolute top-0 -translate-y-full w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-6 -ml-4 -mt-4 flex gap-2 items-center'>
+              <IconCheck />
+              <p className='font-semibold text-sm'>
+                임시 저장이 완료되었습니다 <span className='text-xs font-medium'>ㆍ {}초전</span>
+              </p>
+            </div>
+          )}
         </div>
       </form>
     </>
