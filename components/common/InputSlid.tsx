@@ -1,4 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
+import { twMerge } from 'tailwind-merge';
+import clsx from 'clsx';
 import IconArrowDown from '@/public/icons/IconArrowDown';
 import IconVisibilityOn from '@/public/icons/IconVisibilityOn';
 import IconVisibilityOff from '@/public/icons/IconVisibilityOff';
@@ -17,6 +19,9 @@ interface InputSlidProps {
   error?: string;
   className?: string;
   options?: Option[];
+  inputClassName?: string;
+  labelClassName?: string;
+  errorClassName?: string;
 }
 
 const InputSlid: React.FC<InputSlidProps> = ({
@@ -28,6 +33,9 @@ const InputSlid: React.FC<InputSlidProps> = ({
   error,
   className = '',
   options = [],
+  inputClassName = '',
+  labelClassName = '',
+  errorClassName = '',
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -35,17 +43,26 @@ const InputSlid: React.FC<InputSlidProps> = ({
     setShowPassword(!showPassword);
   };
 
-  const baseInputClass = `
-    w-full px-6 py-3 rounded-xl
-    bg-slate-50  text-slate-800 placeholder-slate-400
-    focus:outline-none focus:ring-1 focus:ring-blue-500
-    ${error ? 'ring-1 ring-red-700' : ''}
-    ${className}
-  `;
+  const baseInputClass = twMerge(
+    clsx(
+      'w-full px-6 py-3 rounded-xl',
+      'bg-slate-50 text-slate-800 placeholder-slate-400',
+      'focus:outline-none focus:ring-1 focus:ring-blue-500',
+      'text-sm sm:text-base lg:text-base',
+      error && 'ring-1 ring-red-700',
+      inputClassName
+    )
+  );
+
+  const labelClass = twMerge(
+    clsx('block font-medium text-slate-800 mb-1', 'text-sm sm:text-base lg:text-base', labelClassName)
+  );
+
+  const errorClass = twMerge(clsx('mt-2 ml-4 text-red-700', 'text-sm sm:text-base lg:text-base', errorClassName));
 
   return (
-    <div className="mb-4">
-      {label && <label className="block text-sm font-medium text-slate-800 mb-1">{label}</label>}
+    <div className={twMerge('mb-4', className)}>
+      {label && <label className={labelClass}>{label}</label>}
       <div className="relative">
         {type === 'select' ? (
           <select className={`${baseInputClass} appearance-none pr-10`} value={value} onChange={onChange}>
@@ -79,12 +96,12 @@ const InputSlid: React.FC<InputSlidProps> = ({
         )}
 
         {type === 'select' && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none ">
+          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <IconArrowDown />
           </div>
         )}
       </div>
-      {error && <p className="mt-2 ml-4 text-sm text-red-700">{error}</p>}
+      {error && <p className={errorClass}>{error}</p>}
     </div>
   );
 };
