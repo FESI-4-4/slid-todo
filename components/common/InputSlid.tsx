@@ -14,8 +14,8 @@ interface InputSlidProps {
   type?: 'text' | 'password' | 'email' | 'select';
   label?: string;
   placeholder?: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   error?: string;
   className?: string;
   options?: Option[];
