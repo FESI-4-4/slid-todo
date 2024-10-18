@@ -69,17 +69,20 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     setContent(savedNote.content);
     setLinkUrl(savedNote.linkUrl);
     setLinkUrlValue(savedNote.linkUrl);
+    setOpenSavedToast(false);
   };
 
   useEffect(() => {
-    if (savedNote) setOpenSavedToast(true);
-
     const id = setInterval(() => {
       handleSave();
     }, 1000 * 60 * 5);
 
     return () => clearInterval(id);
-  }, [handleSave, todoId, savedNote]);
+  }, [handleSave, todoId]);
+
+  useEffect(() => {
+    if (savedNote) setOpenSavedToast(true);
+  }, []);
 
   return (
     <>
