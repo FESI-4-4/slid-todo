@@ -58,7 +58,7 @@ const InputSlid = forwardRef<HTMLInputElement | HTMLSelectElement, InputSlidProp
       clsx('block text-base font-semibold text-slate-800 mb-3', 'text-sm sm:text-base', labelClassName)
     );
 
-    const errorClass = twMerge(clsx('mt-2 ml-4 text-red-700', 'text-xs sm:text-sm', errorClassName));
+    const errorClass = twMerge(clsx('mt-2 ml-4 text-red-700', 'text-xs sm:text-sm', 'animate-shake', errorClassName));
 
     return (
       <div className={twMerge('mb-4', className)}>
