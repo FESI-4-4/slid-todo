@@ -31,8 +31,8 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
 
   const [title, setTitle] = useState(initTitle);
   const [content, setContent] = useState(initContent);
-  const [linkUrlValue, setLinkUrlValue] = useState(initLinkUrl);
   const [linkUrl, setLinkUrl] = useState(initLinkUrl);
+  const [linkUrlValue, setLinkUrlValue] = useState(linkUrl);
 
   const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) => setTitle(e.target.value);
   const handleChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => setContent(e.target.value);
@@ -67,6 +67,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     setTitle(savedNote.title.length ? savedNote.title : '제목없음');
     setContent(savedNote.content);
     setLinkUrl(savedNote.linkUrl);
+    setLinkUrlValue(savedNote.linkUrl);
   };
 
   useEffect(() => {
