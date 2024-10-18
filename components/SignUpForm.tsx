@@ -29,10 +29,7 @@ const SignUpForm: React.FC = () => {
       // If login is successful, you might redirect or update state
       // history.push('/dashboard');
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) {
-        console.log('통과');
-        console.log(error);
         if (error.message.includes('이메일')) {
           setError('email', {
             type: 'manual',
