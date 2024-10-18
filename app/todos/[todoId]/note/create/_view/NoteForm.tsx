@@ -61,7 +61,8 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     if (!globalThis.window) return;
     const item = window.localStorage.getItem('savedNote' + todoId);
     return item && JSON.parse(item);
-  }, [todoId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todoId, savedToast]);
 
   const handleOpenSaved = () => {
     setTitle(savedNote.title.length ? savedNote.title : '제목없음');
