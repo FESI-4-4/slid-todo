@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/common/ButtonSlid';
+import InputSlid from '@/components/common/InputSlid';
 import { ModalClose, ModalContent, ModalProvider, ModalTrigger } from '@/components/common/Modal';
 import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
@@ -17,21 +18,27 @@ import IconTextItalics from '@/public/icons/IconTextItalics';
 import IconTextNumberPoint from '@/public/icons/IconTextNumberPoint';
 import IconTextUnderline from '@/public/icons/IconTextUnderline';
 import { useParams } from 'next/navigation';
-import { ChangeEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type NoteFormProps = {
   title?: string;
   content?: string;
+  linkUrl?: string;
 };
 
-const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteFormProps) => {
+const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: initLinkUrl = '' }: NoteFormProps) => {
   const { todoId } = useParams();
 
   const [title, setTitle] = useState(initTitle);
   const [content, setContent] = useState(initContent);
+  const [linkUrlValue, setLinkUrlValue] = useState(initLinkUrl);
+  const [linkUrl, setLinkUrl] = useState(initLinkUrl);
 
   const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) => setTitle(e.target.value);
   const handleChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => setContent(e.target.value);
+  const handleChangeLinkUrlValue: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (e) =>
+    setLinkUrlValue(e.target.value);
+  const handleSaveLinkUrl: MouseEventHandler<HTMLButtonElement> = () => setLinkUrl(linkUrlValue);
 
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -42,15 +49,16 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
   const handleSave = useCallback(() => {
     window.localStorage.setItem(
       'savedNote' + todoId,
-      JSON.stringify({ todoId, title: titleRef.current?.value, content: contentRef.current?.value })
+      JSON.stringify({ todoId, title: titleRef.current?.value, content: contentRef.current?.value, linkUrl })
     );
     setSavedToast(true);
     setTimeout(() => {
       setSavedToast(false);
     }, 1000 * 5);
-  }, [todoId]);
+  }, [todoId, linkUrl]);
 
   const savedNote = useMemo(() => {
+    if (!globalThis.window) return;
     const item = window.localStorage.getItem('savedNote' + todoId);
     return item && JSON.parse(item);
   }, [todoId]);
@@ -58,6 +66,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
   const handleOpenSaved = () => {
     setTitle(savedNote.title.length ? savedNote.title : '제목없음');
     setContent(savedNote.content);
+    setLinkUrl(savedNote.linkUrl);
   };
 
   useEffect(() => {
@@ -137,15 +146,17 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
             공백포함 : 총 {0}자 | 공백제외 : 총 {0}자
           </p>
         </div>
-        <div className='w-full rounded-full bg-slate-200 p-1 flex items-center gap-2 mb-4'>
-          <div className='w-6 h-6 rounded-full bg-blue-500 flex justify-center items-center'>
-            <IconEmbed />
+        {linkUrl && (
+          <div className='w-full rounded-full bg-slate-200 p-1 flex items-center gap-2 mb-4'>
+            <div className='w-6 h-6 rounded-full bg-blue-500 flex justify-center items-center'>
+              <IconEmbed />
+            </div>
+            <p className='grow text-base font-normal text-slate-800'>{linkUrl}</p>
+            <div className='w-6 h-6 rounded-full flex justify-center items-center'>
+              <IconClose />
+            </div>
           </div>
-          <p className='grow text-base font-normal text-slate-800'>link</p>
-          <div className='w-6 h-6 rounded-full flex justify-center items-center'>
-            <IconClose />
-          </div>
-        </div>
+        )}
         <div className='grow'>
           <textarea
             ref={contentRef}
@@ -172,7 +183,30 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '' }: NoteForm
             <IconTextColor className='cursor-pointer hover:bg-slate-100' />
           </div>
           <div className='grow flex justify-end'>
-            <IconAddLink className='cursor-pointer hover:bg-slate-100' />
+            <ModalProvider>
+              <ModalTrigger type='button'>
+                <IconAddLink className='cursor-pointer hover:bg-slate-100' />
+              </ModalTrigger>
+              <ModalContent className='w-full max-w-[520px] flex flex-col'>
+                <div className='flex justify-between mb-6'>
+                  <h1 className='text-lg font-bold'>링크 업로드</h1>
+                  <ModalClose />
+                </div>
+                <InputSlid
+                  label='링크'
+                  type='text'
+                  placeholder='영상이나 글, 파일의 링크를 넣어주세요'
+                  className='mb-10'
+                  value={linkUrlValue}
+                  onChange={handleChangeLinkUrlValue}
+                />
+                <ModalClose asChild>
+                  <Button className='w-full' onClick={handleSaveLinkUrl}>
+                    확인
+                  </Button>
+                </ModalClose>
+              </ModalContent>
+            </ModalProvider>
           </div>
           {savedToast && (
             <div className='absolute top-0 -translate-y-full w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-6 -ml-4 -mt-4 flex gap-2 items-center'>
