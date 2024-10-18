@@ -41,9 +41,9 @@ export const ImageLogoWithText = () => {
       <path
         d='M4.1084 8.98675L5.64894 10.784L8.73002 7.18945'
         stroke='#F8FAFC'
-        stroke-width='1.23243'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.23243'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );
