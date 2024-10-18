@@ -5,6 +5,7 @@ import Button from './common/ButtonSlid';
 import InputSlid from './common/InputSlid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { signUp } from '@/lib/api/signUp';
 
 const SignUpForm: React.FC = () => {
   const {
@@ -18,28 +19,37 @@ const SignUpForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
+    // 인자로 받은 data에서 confirmPassword 필드를 제외한 나머지 값을 패치에 사용
+    const fetchData = { name: data.name, email: data.email, password: data.password };
     try {
-      // Here you would typically send the data to your backend
-      console.log(data);
+      const response = await signUp(fetchData);
+      console.log(response);
       // Simulating an API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Simulating a server error for demonstration
-      throw new Error('이메일 또는 비밀번호가 일치하지 않습니다.');
 
       // If login is successful, you might redirect or update state
       // history.push('/dashboard');
     } catch (error) {
-      // Assuming the error is an Error object
-      // 가입되지 않은 이메일입니다.
-      // 비밀번호가 올바르지 않습니다.
-      // 회원가입 관련
-      // 이미 사용 중인 이메일입니다.
+      console.log(error);
       if (error instanceof Error) {
-        setError('password', {
-          type: 'manual',
-          message: error.message,
-        });
+        console.log('통과');
+        console.log(error);
+        if (error.message.includes('이메일')) {
+          setError('email', {
+            type: 'manual',
+            message: error.message,
+          });
+        } else if (error.message.includes('비밀번호')) {
+          setError('password', {
+            type: 'manual',
+            message: error.message,
+          });
+        } else {
+          // 일반적인 에러의 경우 비밀번호 필드에 표시 (임시)
+          setError('password', {
+            type: 'manual',
+            message: error.message,
+          });
+        }
       }
     }
   };

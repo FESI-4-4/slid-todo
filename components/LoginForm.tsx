@@ -5,6 +5,7 @@ import InputSlid from './common/InputSlid';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginFormData, loginSchema } from '@/lib/schemas/authSchemas';
+import { login } from '@/lib/api/login';
 
 const LoginForm: React.FC = () => {
   const {
@@ -19,27 +20,30 @@ const LoginForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      // Here you would typically send the data to your backend
-      console.log(data);
-      // Simulating an API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Simulating a server error for demonstration
-      throw new Error('이메일 또는 비밀번호가 일치하지 않습니다.');
-
+      const response = await login(data);
+      console.log(response.user.createdAt);
       // If login is successful, you might redirect or update state
       // history.push('/dashboard');
     } catch (error) {
-      // Assuming the error is an Error object
-      // 가입되지 않은 이메일입니다.
-      // 비밀번호가 올바르지 않습니다.
-      // 회원가입 관련
-      // 이미 사용 중인 이메일입니다.
       if (error instanceof Error) {
-        setError('password', {
-          type: 'manual',
-          message: error.message,
-        });
+        // 서버에서 받은 에러 메시지를 적절한 필드에 설정
+        if (error.message.includes('이메일')) {
+          setError('email', {
+            type: 'manual',
+            message: error.message,
+          });
+        } else if (error.message.includes('비밀번호')) {
+          setError('password', {
+            type: 'manual',
+            message: error.message,
+          });
+        } else {
+          // 일반적인 에러의 경우 비밀번호 필드에 표시 (임시)
+          setError('password', {
+            type: 'manual',
+            message: error.message,
+          });
+        }
       }
     }
   };
