@@ -161,7 +161,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
         <hr />
         <div className='w-full my-3'>
           <p className='text-slate-800 text-xs font-medium'>
-            공백포함 : 총 {0}자 | 공백제외 : 총 {0}자
+            공백포함 : 총 {content.length}자 | 공백제외 : 총 {content.replaceAll(/\s+/g, '').length}자
           </p>
         </div>
         {linkUrl && (
