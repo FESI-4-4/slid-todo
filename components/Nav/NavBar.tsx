@@ -1,5 +1,5 @@
 'use client';
-import { ImageLogoWithText } from '@/public/images/ImageLogoWithText';
+import { ImageLogoWithText } from '@/public/Images/ImageLogoWithText';
 import { usePathname } from 'next/navigation';
 import Profile from './NavProfile';
 import NavDashBoard from './NavDashBoard';
