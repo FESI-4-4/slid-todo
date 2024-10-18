@@ -11,8 +11,8 @@ export const IconKebab = (props: SVGProps<SVGSVGElement>) => {
         transform='rotate(-90 1.9 8.99844)'
         fill='#94A3B8'
         stroke='#94A3B8'
-        stroke-width='2'
-        stroke-linecap='round'
+        strokeWidth='2'
+        strokeLinecap='round'
       />
       <ellipse
         cx='1.9'
@@ -22,8 +22,8 @@ export const IconKebab = (props: SVGProps<SVGSVGElement>) => {
         transform='rotate(-90 1.9 15.7992)'
         fill='#94A3B8'
         stroke='#94A3B8'
-        stroke-width='2'
-        stroke-linecap='round'
+        strokeWidth='2'
+        strokeLinecap='round'
       />
       <ellipse
         cx='1.9'
@@ -33,8 +33,8 @@ export const IconKebab = (props: SVGProps<SVGSVGElement>) => {
         transform='rotate(-90 1.9 2.19961)'
         fill='#94A3B8'
         stroke='#94A3B8'
-        stroke-width='2'
-        stroke-linecap='round'
+        strokeWidth='2'
+        strokeLinecap='round'
       />
     </svg>
   );
