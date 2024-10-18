@@ -18,7 +18,16 @@ import IconTextItalics from '@/public/icons/IconTextItalics';
 import IconTextNumberPoint from '@/public/icons/IconTextNumberPoint';
 import IconTextUnderline from '@/public/icons/IconTextUnderline';
 import { useParams } from 'next/navigation';
-import { ChangeEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 type NoteFormProps = {
   title?: string;
@@ -34,7 +43,9 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
   const [linkUrl, setLinkUrl] = useState(initLinkUrl);
   const [linkUrlValue, setLinkUrlValue] = useState(linkUrl);
 
-  const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) => setTitle(e.target.value);
+  const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setTitle(e.target.value.length > 30 ? e.target.value.slice(0, 30) : e.target.value);
+  };
   const handleChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => setContent(e.target.value);
   const handleChangeLinkUrlValue: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (e) =>
     setLinkUrlValue(e.target.value);
@@ -84,6 +95,8 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     if (savedNote) setOpenSavedToast(true);
   }, []);
 
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+
   return (
     <>
       <div className='flex w-full items-center mb-4'>
@@ -132,7 +145,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
         </div>
       )}
       <hr />
-      <form className='grow w-full h-fit relative flex flex-col'>
+      <form className='grow w-full h-fit relative flex flex-col' onSubmit={handleSubmit}>
         <div className='w-full relative h-7 my-3'>
           <input
             className='w-full text-lg font-medium focus-visible:outline-none'
@@ -142,7 +155,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
             ref={titleRef}
           />
           <p className='absolute right-0 top-0 text-slate-800 font-medium text-xs'>
-            {22}/<span className='text-blue-500'>30</span>
+            {title.length}/<span className='text-blue-500'>30</span>
           </p>
         </div>
         <hr />
