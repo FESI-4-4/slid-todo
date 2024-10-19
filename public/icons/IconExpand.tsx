@@ -6,16 +6,16 @@ export const IconExpand = (props: SVGProps<SVGSVGElement>) => {
       <path
         d='M6.39258 1L10.0176 4.625L6.39258 8.25'
         stroke='#94A3B8'
-        stroke-width='1.8'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.8'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M1.25 1L4.875 4.625L1.25 8.25'
         stroke='#94A3B8'
-        stroke-width='1.8'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.8'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );

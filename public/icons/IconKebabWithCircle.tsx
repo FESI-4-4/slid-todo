@@ -13,8 +13,8 @@ export const IconKebabWithCircle = (props: SVGProps<SVGSVGElement>) => {
             transform='rotate(-90 1.94199 6.00039)'
             fill='#94A3B8'
             stroke='#94A3B8'
-            stroke-width='1.16667'
-            stroke-linecap='round'
+            strokeWidth='1.16667'
+            strokeLinecap='round'
           />
           <circle
             cx='1.94199'
@@ -23,8 +23,8 @@ export const IconKebabWithCircle = (props: SVGProps<SVGSVGElement>) => {
             transform='rotate(-90 1.94199 9.96719)'
             fill='#94A3B8'
             stroke='#94A3B8'
-            stroke-width='1.16667'
-            stroke-linecap='round'
+            strokeWidth='1.16667'
+            strokeLinecap='round'
           />
           <circle
             cx='1.94199'
@@ -33,8 +33,8 @@ export const IconKebabWithCircle = (props: SVGProps<SVGSVGElement>) => {
             transform='rotate(-90 1.94199 2.03359)'
             fill='#94A3B8'
             stroke='#94A3B8'
-            stroke-width='1.16667'
-            stroke-linecap='round'
+            strokeWidth='1.16667'
+            strokeLinecap='round'
           />
         </svg>
       </g>
