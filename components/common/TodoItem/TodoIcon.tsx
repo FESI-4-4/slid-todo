@@ -6,14 +6,19 @@ import IconNoteView from '@/public/icons/IconNoteView';
 import IconNoteWrite from '@/public/icons/IconNoteWrite';
 import DropdownMenu from '../DropdownMenu';
 import { IconKebab } from '@/public/icons/IconKebab';
+import { TodoItemData } from '.';
 
-const TodoIcon = () => {
+interface TodoIconProps {
+  data: TodoItemData;
+}
+
+const TodoIcon: React.FC<TodoIconProps> = ({ data }) => {
   return (
     <div className='flex items-center gap-x-2'>
-      <IconFile />
-      <IconLink />
-      <IconNoteWrite />
-      <IconNoteView />
+      {data.fileUrl && <IconFile className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
+      {data.linkUrl && <IconLink className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
+      {data.noteId && <IconNoteView className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
+      <IconNoteWrite className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />
       <div>
         <DropdownMenu
           icon={IconKebab}
