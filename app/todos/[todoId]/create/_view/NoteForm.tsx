@@ -39,9 +39,7 @@ type NoteFormProps = {
 const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: initLinkUrl = '' }: NoteFormProps) => {
   const { todoId } = useParams();
 
-  const { data } = useTodoQuery(todoId as string);
-
-  console.log(data);
+  const { data: todo } = useTodoQuery(todoId as string);
 
   const [title, setTitle] = useState(initTitle);
   const [content, setContent] = useState(initContent);
@@ -117,11 +115,11 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
         <div className='flex justify-center items-center rounded-md bg-slate-800 w-6 h-6'>
           <IconFlag />
         </div>
-        <p className='font-medium text-base text-slate-800'>목표</p>
+        <p className='font-medium text-base text-slate-800'>{todo?.goal.title}</p>
       </div>
       <div className='flex w-full gap-2 mb-6'>
         <p className='rounded-md bg-slate-100 p-1 text-slate-700 text-xs'>To do</p>
-        <p className='text-sm font-normal text-slate-700'>할일</p>
+        <p className='text-sm font-normal text-slate-700'>{todo?.title}</p>
       </div>
 
       {openSavedToast && (
