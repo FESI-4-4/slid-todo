@@ -3,7 +3,7 @@
 import Button from '@/components/common/ButtonSlid';
 import InputSlid from '@/components/common/InputSlid';
 import { ModalClose, ModalContent, ModalProvider, ModalTrigger } from '@/components/common/Modal';
-import useTodoMutation from '@/lib/hooks/useTodoMutation';
+import useNoteMutation from '@/lib/hooks/useNoteMutation';
 import useTodosQuery from '@/lib/hooks/useTodosQuery';
 import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
@@ -42,7 +42,7 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
 
   const { data } = useTodosQuery(todoId as string);
   const todo = data?.todos.find((todo) => todo.id === Number(todoId));
-  const { mutate } = useTodoMutation(todoId as string);
+  const { mutate } = useNoteMutation(todoId as string);
 
   const [title, setTitle] = useState(initTitle);
   const [content, setContent] = useState(initContent);
@@ -103,7 +103,31 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     if (savedNote) setOpenSavedToast(true);
   }, []);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+  };
+
+  const handleClickSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
+    const note: {
+      title: string;
+      content: string;
+      todoId: number;
+      linkUrl?: string;
+    } = {
+      title,
+      content,
+      todoId: +todoId,
+      linkUrl,
+    };
+
+    if (!note.linkUrl) {
+      delete note.linkUrl;
+    }
+
+    mutate({
+      options: { method: 'POST', body: JSON.stringify(note) },
+    });
+  };
 
   return (
     <>
@@ -112,7 +136,9 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
         <button className='py-3 px-5 text-blue-500 font-semibold text-sm mr-2' onClick={handleSave}>
           임시저장
         </button>
-        <Button disabled={!title.length || !content.length}>작성 완료</Button>
+        <Button disabled={!title.length || !content.length} onClick={handleClickSubmit}>
+          작성 완료
+        </Button>
       </div>
       <div className='flex w-full gap-1.5 mb-3'>
         <div className='flex justify-center items-center rounded-md bg-slate-800 w-6 h-6'>
