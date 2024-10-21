@@ -14,3 +14,9 @@ export type Todo = {
   updatedAt: string;
   createdAt: string;
 };
+
+export type Todos = {
+  todos: Todo[];
+  nextCursor: number | null;
+  totalCount: number;
+};

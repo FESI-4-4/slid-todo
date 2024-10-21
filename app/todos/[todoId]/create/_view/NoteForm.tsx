@@ -3,7 +3,8 @@
 import Button from '@/components/common/ButtonSlid';
 import InputSlid from '@/components/common/InputSlid';
 import { ModalClose, ModalContent, ModalProvider, ModalTrigger } from '@/components/common/Modal';
-import useTodoQuery from '@/lib/hooks/useTodoQuery';
+import useTodoMutation from '@/lib/hooks/useTodoMutation';
+import useTodosQuery from '@/lib/hooks/useTodosQuery';
 import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
 import IconClose from '@/public/icons/IconClose';
@@ -39,7 +40,9 @@ type NoteFormProps = {
 const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: initLinkUrl = '' }: NoteFormProps) => {
   const { todoId } = useParams();
 
-  const { data: todo } = useTodoQuery(todoId as string);
+  const { data } = useTodosQuery(todoId as string);
+  const todo = data?.todos.find((todo) => todo.id === Number(todoId));
+  const { mutate } = useTodoMutation(todoId as string);
 
   const [title, setTitle] = useState(initTitle);
   const [content, setContent] = useState(initContent);
