@@ -5,9 +5,10 @@ interface DropdownProps {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
   dropdownList: string[];
   onItemClick: (item: string) => void;
+  className?: string;
 }
 
-const DropdownMenu = ({ icon: Icon, dropdownList, onItemClick }: DropdownProps) => {
+const DropdownMenu = ({ icon: Icon, dropdownList, onItemClick, className: iconButtonClasses }: DropdownProps) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -26,9 +27,13 @@ const DropdownMenu = ({ icon: Icon, dropdownList, onItemClick }: DropdownProps) 
   }, []);
 
   return (
-    <div className='relative inline-block gap-2'>
-      <button onClick={toggleDropdown} className='p-2 rounded focus:outline-none' aria-label='더보기 메뉴 열기'>
-        <Icon width={24} height={24} />
+    <div className='flex-col justify-center items-center relative inline-block'>
+      <button
+        onClick={toggleDropdown}
+        className='rounded focus:outline-none flex justify-center items-center'
+        aria-label='더보기 메뉴 열기'
+      >
+        <Icon width={24} height={24} className={iconButtonClasses} />
       </button>
 
       {isDropdownOpen && (
@@ -36,7 +41,7 @@ const DropdownMenu = ({ icon: Icon, dropdownList, onItemClick }: DropdownProps) 
           ref={dropdownRef}
           className='absolute right-0 mt-2 w-auto bg-white rounded-xl shadow-[4px_4px_10px_-2px_rgba(0,0,0,0.05)] items-center'
         >
-          <ul className='flex flex-col text-nowrap text-sm sm:text-lg lg:text-lg text-slate-700 leading-5 lg:leading-7 justify-center items-center text-center'>
+          <ul className='flex flex-col text-nowrap text-sm sm:text-lg lg:text-lg text-slate-700 justify-center items-center text-center'>
             {dropdownList.map((listItem, idx) => (
               <li
                 key={idx}
