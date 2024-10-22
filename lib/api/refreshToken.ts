@@ -1,4 +1,9 @@
-export async function fetchNewAccessToken(refreshToken: string, baseURL: string) {
+interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export async function fetchNewAccessToken(refreshToken: string, baseURL: string): Promise<RefreshTokenResponse> {
   try {
     const refreshResponse = await fetch(`${baseURL}/auth/tokens`, {
       method: 'POST',
@@ -7,15 +12,13 @@ export async function fetchNewAccessToken(refreshToken: string, baseURL: string)
         Authorization: `Bearer ${refreshToken}`,
       },
     });
-
-    if (refreshResponse.ok) {
-      const data = await refreshResponse.json();
-      return data.accessToken;
-    } else {
-      throw new Error('Failed to refresh token');
+    if (!refreshResponse.ok) {
+      const errorData = await refreshResponse.json();
+      throw new Error(errorData.message);
     }
+    return refreshResponse.json();
   } catch (error) {
-    console.error('Error refreshing token:', error);
-    return null;
+    console.error('Error fetching new access token:', error);
+    throw new Error(error instanceof Error ? error.message : 'An unknown error occurred.');
   }
 }
