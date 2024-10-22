@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import NavBar from '@/components/Nav/NavBar';
+import QueryClientProviderWrapper from './_view/QueryClientProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body>{children}</body>
+      <body>
+        <QueryClientProviderWrapper>{children}</QueryClientProviderWrapper>
+      </body>
     </html>
   );
 }

@@ -1,4 +1,4 @@
-import NoteForm from './_view/NoteForm';
+import NoteForm from '../_view/NoteForm';
 
 export default function Page() {
   return (

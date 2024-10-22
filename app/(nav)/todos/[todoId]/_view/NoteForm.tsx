@@ -3,6 +3,8 @@
 import Button from '@/components/common/ButtonSlid';
 import InputSlid from '@/components/common/InputSlid';
 import { ModalClose, ModalContent, ModalProvider, ModalTrigger } from '@/components/common/Modal';
+import useNoteMutation from '@/lib/hooks/useNoteMutation';
+import useTodosQuery from '@/lib/hooks/useTodosQuery';
 import IconAddLink from '@/public/icons/IconAddLink';
 import IconCheck from '@/public/icons/IconCheck';
 import IconClose from '@/public/icons/IconClose';
@@ -33,10 +35,22 @@ type NoteFormProps = {
   title?: string;
   content?: string;
   linkUrl?: string;
+  method?: 'POST' | 'PATCH';
+  noteId?: string;
 };
 
-const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: initLinkUrl = '' }: NoteFormProps) => {
+const NoteForm = ({
+  title: initTitle = '',
+  content: initContent = '',
+  linkUrl: initLinkUrl = '',
+  method = 'POST',
+  noteId,
+}: NoteFormProps) => {
   const { todoId } = useParams();
+
+  const { data } = useTodosQuery(todoId as string);
+  const todo = data?.todos.find((todo) => todo.id === Number(todoId));
+  const { mutate } = useNoteMutation(todoId as string);
 
   const [title, setTitle] = useState(initTitle);
   const [content, setContent] = useState(initContent);
@@ -83,6 +97,8 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     setOpenSavedToast(false);
   };
 
+  const handleCloseOpenSavedToast = () => setOpenSavedToast(false);
+
   useEffect(() => {
     const id = setInterval(() => {
       handleSave();
@@ -95,7 +111,32 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     if (savedNote) setOpenSavedToast(true);
   }, []);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+  };
+
+  const handleClickSubmit: MouseEventHandler<HTMLButtonElement> = async () => {
+    const note: {
+      title: string;
+      content: string;
+      todoId: number;
+      linkUrl?: string;
+    } = {
+      title,
+      content,
+      todoId: +todoId,
+      linkUrl,
+    };
+
+    if (!note.linkUrl) {
+      delete note.linkUrl;
+    }
+
+    mutate({
+      noteId,
+      options: { method, body: JSON.stringify(note) },
+    });
+  };
 
   return (
     <>
@@ -104,22 +145,26 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
         <button className='py-3 px-5 text-blue-500 font-semibold text-sm mr-2' onClick={handleSave}>
           임시저장
         </button>
-        <Button disabled={!title.length || !content.length}>작성 완료</Button>
+        <Button disabled={!title.length || !content.length} onClick={handleClickSubmit}>
+          작성 완료
+        </Button>
       </div>
       <div className='flex w-full gap-1.5 mb-3'>
         <div className='flex justify-center items-center rounded-md bg-slate-800 w-6 h-6'>
           <IconFlag />
         </div>
-        <p className='font-medium text-base text-slate-800'>목표</p>
+        <p className='font-medium text-base text-slate-800'>{todo?.goal.title}</p>
       </div>
       <div className='flex w-full gap-2 mb-6'>
         <p className='rounded-md bg-slate-100 p-1 text-slate-700 text-xs'>To do</p>
-        <p className='text-sm font-normal text-slate-700'>할일</p>
+        <p className='text-sm font-normal text-slate-700'>{todo?.title}</p>
       </div>
 
       {openSavedToast && (
         <div className='w-full bg-blue-50 text-blue-500 rounded-full py-2.5 px-3 flex gap-4 items-center mb-6'>
-          <IconClose circleFill='fill-blue-500' className='cursor-pointer' />
+          <button onClick={handleCloseOpenSavedToast}>
+            <IconClose circleFill='fill-blue-500' className='cursor-pointer' />
+          </button>
           <p className='font-semibold text-sm grow'>임시 저장된 노트가 있어요. 저장된 노트를 불러오시겠어요?</p>
           <ModalProvider>
             <ModalTrigger className='rounded-full bg-white border border-blue-500 text-blue-500 text-sm font-semibold py-2 px-4'>
