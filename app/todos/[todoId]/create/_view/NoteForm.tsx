@@ -35,9 +35,17 @@ type NoteFormProps = {
   title?: string;
   content?: string;
   linkUrl?: string;
+  method?: 'POST' | 'PATCH';
+  noteId?: string;
 };
 
-const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: initLinkUrl = '' }: NoteFormProps) => {
+const NoteForm = ({
+  title: initTitle = '',
+  content: initContent = '',
+  linkUrl: initLinkUrl = '',
+  method = 'POST',
+  noteId,
+}: NoteFormProps) => {
   const { todoId } = useParams();
 
   const { data } = useTodosQuery(todoId as string);
@@ -125,7 +133,8 @@ const NoteForm = ({ title: initTitle = '', content: initContent = '', linkUrl: i
     }
 
     mutate({
-      options: { method: 'POST', body: JSON.stringify(note) },
+      noteId,
+      options: { method, body: JSON.stringify(note) },
     });
   };
 
