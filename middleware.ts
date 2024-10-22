@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchNewAccessToken } from './lib/api/refreshToken';
 import { API_BASE_URL } from './constants/api';
+import setAuthCookies from './lib/utils/setAuthCookies';
 
 export async function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value;
@@ -38,20 +39,7 @@ export async function middleware(request: NextRequest) {
             headers: request.headers,
           },
         });
-        response.cookies.set('accessToken', data.accessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
-          maxAge: 60 * 60,
-          path: '/',
-        });
-        response.cookies.set('refreshToken', data.refreshToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
-          maxAge: 24 * 60 * 60,
-          path: '/',
-        });
+        setAuthCookies(response, data.accessToken, data.refreshToken);
         return response;
       }
     }
