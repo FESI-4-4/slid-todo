@@ -18,8 +18,8 @@ export default function Alltodos() {
     fetchTodos();
   }, []);
   return (
-    <div className='bg-slate-100'>
-      <main className='mx-20 my-6 '>
+    <div className='bg-slate-100 w-full h-screen'>
+      <main className='lg:mx-20 sm:mx-6 mx-4 my-6 max-w-[792px]'>
         <HeaderAllTodos length={totalCount} />
         <div className='sm:p-6 p-4 bg-white rounded-xl flex flex-col gap-4'>
           <Filters />
