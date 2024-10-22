@@ -19,13 +19,14 @@ const TodoIcon: React.FC<TodoIconProps> = ({ data }) => {
       {data.linkUrl && <IconLink className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
       {data.noteId && <IconNoteView className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
       <IconNoteWrite className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />
-
-      <DropdownMenu
-        icon={IconKebabWithCircle}
-        dropdownList={['수정하기', '삭제하기']}
-        onItemClick={(item) => console.log(item)}
-        className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer'
-      />
+      <div className='flex justify-center items-center'>
+        <DropdownMenu
+          icon={IconKebabWithCircle}
+          dropdownList={['수정하기', '삭제하기']}
+          onItemClick={(item) => console.log(item)}
+          className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer transition-all duration-200 w-0 group-hover:w-auto group-focus-within:w-auto'
+        />
+      </div>
     </div>
   );
 };
