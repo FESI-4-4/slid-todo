@@ -43,7 +43,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ data, viewGoal }) => {
             {data.title}
           </div>
         </div>
-        <div className='transition-all duration-200 w-0 group-hover:w-auto'>
+        <div className='transition-all duration-200 w-0 group-hover:w-auto group-focus-within:w-auto'>
           <TodoIcon data={data} />
         </div>
       </div>
