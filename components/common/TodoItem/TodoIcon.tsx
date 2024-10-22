@@ -5,7 +5,7 @@ import IconLink from '@/public/icons/IconLink';
 import IconNoteView from '@/public/icons/IconNoteView';
 import IconNoteWrite from '@/public/icons/IconNoteWrite';
 import DropdownMenu from '../DropdownMenu';
-import { IconKebab } from '@/public/icons/IconKebab';
+import { IconKebabWithCircle } from '@/public/icons/IconKebabWithCircle';
 import { TodoItemData } from '.';
 
 interface TodoIconProps {
@@ -19,13 +19,13 @@ const TodoIcon: React.FC<TodoIconProps> = ({ data }) => {
       {data.linkUrl && <IconLink className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
       {data.noteId && <IconNoteView className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
       <IconNoteWrite className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />
-      <div>
-        <DropdownMenu
-          icon={IconKebab}
-          dropdownList={['수정하기', '삭제하기']}
-          onItemClick={(item) => console.log(item)}
-        />
-      </div>
+
+      <DropdownMenu
+        icon={IconKebabWithCircle}
+        dropdownList={['수정하기', '삭제하기']}
+        onItemClick={(item) => console.log(item)}
+        className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer'
+      />
     </div>
   );
 };
