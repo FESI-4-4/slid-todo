@@ -3,7 +3,13 @@ import { IconTodoRecently } from '@/public/icons/IconTodoRecently';
 
 const RecentTodo = () => {
   return (
-    <section className='px-6 py-4  w-[588px] h-[250px] bg-white rounded-xl border border-slate-100'>
+    <section
+      className='flex-col bg-white rounded-xl border border-slate-100
+      w-[343px] h-[250px] px-4 pb-6 pt-4
+      sm:w-[306px] sm:h-[250px] sm:px-6 sm:pb-6 sm:pt-4
+      lg:w-[588px] lg:h-[250px]
+    '
+    >
       <div className='flex items-center w-full gap-2'>
         <div className='w-10 h-10 bg-blue-500 rounded-[15px] grid place-content-center'>
           <IconTodoRecently />
