@@ -24,6 +24,7 @@ const LoginForm: React.FC = () => {
       console.log(response.user.createdAt);
       // If login is successful, you might redirect or update state
       // history.push('/dashboard');
+      // 복구를 위한 임시 코드
     } catch (error) {
       if (error instanceof Error) {
         // 서버에서 받은 에러 메시지를 적절한 필드에 설정
