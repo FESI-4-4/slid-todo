@@ -16,10 +16,7 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body>
-        <QueryClientProviderWrapper>
-          <NavBar />
-          {children}
-        </QueryClientProviderWrapper>
+        <QueryClientProviderWrapper>{children}</QueryClientProviderWrapper>
       </body>
     </html>
   );
