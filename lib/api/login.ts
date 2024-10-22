@@ -1,5 +1,3 @@
-import { apiFetch } from './interceptor';
-
 interface LoginFormData {
   email: string;
   password: string;
@@ -16,7 +14,7 @@ interface LoginResponse {
 }
 
 export const login = async (data: LoginFormData): Promise<LoginResponse> => {
-  const response = await apiFetch('/api/auth/login', {
+  const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
