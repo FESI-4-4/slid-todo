@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import NoteForm from '../../create/_view/NoteForm';
+import NoteForm from '../../_view/NoteForm';
 
 export default async function Page({ params }: { params: { noteId: string } }) {
   const { noteId } = params;
