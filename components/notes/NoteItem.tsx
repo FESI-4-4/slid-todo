@@ -3,24 +3,7 @@
 import { IconRectangle } from '@/public/icons/IconRectangle';
 import DropdownMenu from '../common/DropdownMenu';
 import { IconKebabWithCircle } from '@/public/icons/IconKebabWithCircle';
-
-interface Note {
-  todo: {
-    done: boolean;
-    title: string;
-    id: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-  title: string;
-  id: number;
-  goal: {
-    title: string;
-    id: number;
-  };
-  userId: number;
-  teamId: string;
-}
+import { Note } from '@/app/(nav)/notes/[goalId]/page';
 
 interface NoteItemProps {
   note: Note;
