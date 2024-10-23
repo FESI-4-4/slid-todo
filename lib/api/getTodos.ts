@@ -1,5 +1,3 @@
-import { apiFetch } from './interceptor';
-
 export interface Goal {
   id: number;
   title: string;
@@ -42,7 +40,7 @@ export const getTodos = async ({
   if (cursor) params.append('cursor', cursor.toString());
   if (size) params.append('size', size.toString());
 
-  const response = await apiFetch(`/4-4-dev/todos?${params.toString()}`, {
+  const response = await fetch(`/4-4-dev/todos?${params.toString()}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });

@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginFormData, loginSchema } from '@/lib/schemas/authSchemas';
 import { login } from '@/lib/api/login';
+import { setUserToStorage } from '@/lib/utils/auth';
 
 const LoginForm: React.FC = () => {
   const {
@@ -21,10 +22,8 @@ const LoginForm: React.FC = () => {
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       const response = await login(data);
-      console.log(response.user.createdAt);
-      // If login is successful, you might redirect or update state
-      // history.push('/dashboard');
-      // 복구를 위한 임시 코드
+      setUserToStorage(response.user);
+      window.location.href = '/dashboard';
     } catch (error) {
       if (error instanceof Error) {
         // 서버에서 받은 에러 메시지를 적절한 필드에 설정
