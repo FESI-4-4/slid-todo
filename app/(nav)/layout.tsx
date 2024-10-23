@@ -6,11 +6,9 @@ export default function NavLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='ko'>
-      <body className='flex'>
-        <NavBar />
-        {children}
-      </body>
-    </html>
+    <div className='flex'>
+      <NavBar />
+      <div>{children}</div>
+    </div>
   );
 }
