@@ -7,10 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginFormData, loginSchema } from '@/lib/schemas/authSchemas';
 import { login } from '@/lib/api/login';
 import { setUserToStorage } from '@/lib/utils/auth';
-import { useRouter } from 'next/navigation';
 
 const LoginForm: React.FC = () => {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -25,7 +23,7 @@ const LoginForm: React.FC = () => {
     try {
       const response = await login(data);
       setUserToStorage(response.user);
-      router.push('/dashboard');
+      window.location.href = '/dashboard';
     } catch (error) {
       if (error instanceof Error) {
         // 서버에서 받은 에러 메시지를 적절한 필드에 설정
