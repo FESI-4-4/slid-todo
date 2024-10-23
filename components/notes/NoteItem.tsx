@@ -1,5 +1,3 @@
-// note 타입
-
 import { IconRectangle } from '@/public/icons/IconRectangle';
 import DropdownMenu from '../common/DropdownMenu';
 import { IconKebabWithCircle } from '@/public/icons/IconKebabWithCircle';
