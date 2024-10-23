@@ -2,6 +2,7 @@ import IconArrowRight from '@/public/icons/IconArrowRight';
 import { IconTodoRecently } from '@/public/icons/IconTodoRecently';
 import TodoItem from '../common/TodoItem';
 import useTodosQuery from '@/lib/hooks/useTodosQuery';
+import Link from 'next/link';
 
 const RecentTodo = () => {
   const { data: recentTodos } = useTodosQuery('recentTodos', { size: 4 }); // 4로 고정
@@ -19,10 +20,10 @@ const RecentTodo = () => {
           <IconTodoRecently />
         </div>
         <p className='text-slate-800 text-lg font-semibold text-nowrap'>최근 등록한 할 일</p>
-        <div className='flex items-center last:ml-auto'>
-          <p className='text-slate-600 text-sm font-medium leading-tight text-nowrap'>모두 보기</p>
+        <Link href='/todos' className='flex last:ml-auto text-slate-600 text-sm font-medium leading-tight text-nowrap'>
+          <span className='flex items-center'>모두 보기</span>
           <IconArrowRight />
-        </div>
+        </Link>
       </div>
       <div className='w-full h-auto my-6'>
         {recentTodos?.todos.map((todo) => (
