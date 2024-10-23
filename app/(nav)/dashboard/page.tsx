@@ -1,3 +1,4 @@
+'use client';
 import GoalTodo from '@/components/dashboard/GoalTodo';
 import Progress from '@/components/dashboard/Progress';
 import RecentTodo from '@/components/dashboard/RecentTodo';

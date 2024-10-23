@@ -1,7 +1,11 @@
 import IconArrowRight from '@/public/icons/IconArrowRight';
 import { IconTodoRecently } from '@/public/icons/IconTodoRecently';
+import TodoItem from '../common/TodoItem';
+import useTodosQuery from '@/lib/hooks/useTodosQuery';
 
 const RecentTodo = () => {
+  const { data: recentTodos } = useTodosQuery('recentTodos', { size: 4 }); // 4로 고정
+
   return (
     <section
       className='flex-col bg-white rounded-xl border border-slate-100
@@ -20,7 +24,11 @@ const RecentTodo = () => {
           <IconArrowRight />
         </div>
       </div>
-      <div className='w-full h-auto my-6'>리스트</div>
+      <div className='w-full h-auto my-6'>
+        {recentTodos?.todos.map((todo) => (
+          <TodoItem data={todo} key={todo.id} />
+        ))}
+      </div>
     </section>
   );
 };
