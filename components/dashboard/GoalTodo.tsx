@@ -1,4 +1,5 @@
 import { IconDashboardFlag } from '@/public/icons/IconDashboardFlag';
+import GoalTodoCard from './GoalTodoCard';
 
 const GoalTodo = () => {
   return (
@@ -11,8 +12,9 @@ const GoalTodo = () => {
           <p className='text-slate-800 text-lg font-semibold'>목표 별 할 일</p>
         </div>
         <div className='flex-col mt-6 space-y-4'>
-          <div className='flex w-full h-[304px] p-6 bg-blue-50 rounded-[32px]'>리스트</div>
-          <div className='flex w-full h-[304px] p-6 bg-blue-50 rounded-[32px]'>리스트2</div>
+          <div className='flex w-full h-[304px] p-6 bg-blue-50 rounded-[32px]'>
+            <GoalTodoCard />
+          </div>
         </div>
       </div>
     </section>
