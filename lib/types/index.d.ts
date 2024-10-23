@@ -20,3 +20,20 @@ export type Todos = {
   nextCursor: number | null;
   totalCount: number;
 };
+
+
+export type Goal = {
+  id: number;
+  teamId: string;
+  userId: number;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+};
+
+
+export type Goals = {
+  goals: Goal[];
+  totalCount: number;
+  nextCursor: number | null;
+};
