@@ -6,9 +6,9 @@ export default function NavLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='flex'>
+    <div className='flex w-screen h-screen'>
       <NavBar />
-      <div>{children}</div>
+      <div className='flex-1'>{children}</div>
     </div>
   );
 }
