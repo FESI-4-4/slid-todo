@@ -3,14 +3,16 @@ interface LoginFormData {
   password: string;
 }
 
+export interface User {
+  id: number;
+  email: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface LoginResponse {
-  user: {
-    id: number;
-    email: string;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  user: User;
 }
 
 export const login = async (data: LoginFormData): Promise<LoginResponse> => {
