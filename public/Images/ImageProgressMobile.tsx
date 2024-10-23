@@ -1,12 +1,12 @@
 import React, { SVGProps } from 'react';
 
-export const ImageProgressTablet = ({ ...props }: SVGProps<SVGSVGElement>) => {
+export const ImageProgressMobile = ({ ...props }: SVGProps<SVGSVGElement>) => {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' width='179' height='135' viewBox='0 0 179 135' fill='none' {...props}>
       <path
         d='M197.671 39.697C215.423 60.4315 224.919 86.9869 224.359 114.331C223.799 141.675 213.221 167.909 194.631 188.06C176.041 208.212 150.73 220.881 123.494 223.668C96.2575 226.455 68.9886 219.166 46.8541 203.181C24.7196 187.197 9.25744 163.628 3.39747 136.941C-2.46249 110.254 1.68689 82.302 15.0594 58.3826C28.4318 34.4632 50.0983 16.2379 75.9532 7.16019C101.808 -1.91752 130.055 -1.21697 155.342 9.12911L112.593 112.538L197.671 39.697Z'
         fill='white'
-        fill-opacity='0.2'
+        fillOpacity='0.2'
       />
     </svg>
   );
