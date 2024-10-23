@@ -16,13 +16,13 @@ export interface Goal {
 }
 
 export interface TodoItemData {
-  noteId: number;
+  noteId: number | null;
   done: boolean;
-  linkUrl: string;
-  fileUrl: string;
+  linkUrl: string | null;
+  fileUrl: string | null;
   title: string;
   id: number;
-  goal: Goal;
+  goal: Goal | null;
   userId: number;
   teamId: string;
   updatedAt: string;
@@ -47,7 +47,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ data, viewGoal }) => {
           <TodoIcon data={data} />
         </div>
       </div>
-      {viewGoal && data.goal.id && <GoalTitle goal={data.goal} />}
+      {viewGoal && data.goal?.id && <GoalTitle goal={data.goal} />}
     </div>
   );
 };
