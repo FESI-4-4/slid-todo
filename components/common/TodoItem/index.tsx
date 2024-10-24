@@ -4,6 +4,7 @@ import GoalTitle from './GoalTitle';
 import IconStateActive from '@/public/icons/IconStateActive';
 import { twMerge } from 'tailwind-merge';
 import clsx from 'clsx';
+import { useUpdateTodoMutation } from '@/lib/hooks/useUpdateTodoMutation';
 
 interface TodoItemProps {
   data: TodoItemData;
@@ -30,15 +31,24 @@ export interface TodoItemData {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ data, viewGoal }) => {
+  const updateTodoMutation = useUpdateTodoMutation();
+  const handleToggle = () => {
+    updateTodoMutation.mutate({
+      id: data.id,
+      updates: { done: !data.done },
+    });
+  };
   return (
     <div className='text-sm group'>
       <div className='flex justify-between items-center'>
         <div className='flex items-center gap-x-2 min-w-0 flex-1'>
-          {data.done ? (
-            <IconStateActive className='cursor-pointer shrink-0' />
-          ) : (
-            <IconInactive className='cursor-pointer shrink-0' />
-          )}
+          <div onClick={handleToggle}>
+            {data.done ? (
+              <IconStateActive className='cursor-pointer shrink-0' />
+            ) : (
+              <IconInactive className='cursor-pointer shrink-0' />
+            )}
+          </div>
           <div className={twMerge(clsx('truncate hover:underline cursor-pointer', data.done && 'line-through'))}>
             {data.title}
           </div>
