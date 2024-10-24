@@ -1,7 +1,7 @@
 import { User } from '@/lib/api/login';
 import { getUserFromStorage, removeUserFromStorage } from '@/lib/utils/auth';
-import { ImageProfile } from '@/public/Images/ImageProfile';
-import { ImageProfileSmall } from '@/public/Images/ImageProfileSmall';
+import { ImageProfile } from '@/public/images/ImageProfile';
+import { ImageProfileSmall } from '@/public/images/ImageProfileSmall';
 import { useEffect, useState } from 'react';
 
 const Profile = () => {

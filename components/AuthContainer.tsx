@@ -1,4 +1,4 @@
-import MainLogo from '@/public/Images/MainLogo';
+import MainLogo from '@/public/images/MainLogo';
 import Link from 'next/link';
 import React from 'react';
 
