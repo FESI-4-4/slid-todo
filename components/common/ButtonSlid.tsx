@@ -9,7 +9,7 @@ interface ButtonSlidProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<ButtonSlidProps> = ({ children, variant = 'filled', className, disabled, ...props }) => {
   const baseClasses =
-    'font-semibold py-3 px-6 rounded-xl flex justify-center items-center transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50';
+    'font-semibold py-3 px-6 rounded-xl flex justify-center items-center transition-colors duration-200 focus:outline-none  ';
 
   const variantClasses = {
     filled: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-800',
