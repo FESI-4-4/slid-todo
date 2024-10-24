@@ -60,13 +60,15 @@ const NoteForm = ({
   const handleChangeTitle: ChangeEventHandler<HTMLInputElement> = (e) => {
     setTitle(e.target.value.length > 30 ? e.target.value.slice(0, 30) : e.target.value);
   };
-  const handleChangeContent: ChangeEventHandler<HTMLTextAreaElement> = (e) => setContent(e.target.value);
+  const handleChangeContent: ChangeEventHandler<HTMLInputElement> = (e) => {
+    contentValueRef.current = e.target.innerHTML;
+  };
   const handleChangeLinkUrlValue: ChangeEventHandler<HTMLInputElement | HTMLSelectElement> = (e) =>
     setLinkUrlValue(e.target.value);
   const handleSaveLinkUrl: MouseEventHandler<HTMLButtonElement> = () => setLinkUrl(linkUrlValue);
 
   const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const contentValueRef = useRef<string>(initContent);
 
   const [savedToast, setSavedToast] = useState(false);
   const [openSavedToast, setOpenSavedToast] = useState(false);
@@ -74,7 +76,7 @@ const NoteForm = ({
   const handleSave = useCallback(() => {
     window.localStorage.setItem(
       'savedNote' + todoId,
-      JSON.stringify({ todoId, title: titleRef.current?.value, content: contentRef.current?.value, linkUrl })
+      JSON.stringify({ todoId, title: titleRef.current?.value, content: contentValueRef.current, linkUrl })
     );
     setSavedToast(true);
     setTimeout(() => {
@@ -123,7 +125,7 @@ const NoteForm = ({
       linkUrl?: string;
     } = {
       title,
-      content,
+      content: contentValueRef.current,
       todoId: +todoId,
       linkUrl,
     };
@@ -221,12 +223,11 @@ const NoteForm = ({
           </div>
         )}
         <div className='grow'>
-          <textarea
-            ref={contentRef}
-            placeholder='이 곳을 클릭해 노트 작성을 시작해주세요'
-            className='resize-none w-full h-full focus-visible:outline-none text-slate-700'
-            value={content}
-            onChange={handleChangeContent}
+          <div
+            contentEditable
+            className='resize-none w-full h-full focus-visible:outline-none text-slate-700 whitespace-break-spaces'
+            onInput={handleChangeContent}
+            dangerouslySetInnerHTML={{ __html: contentValueRef.current }}
           />
         </div>
         <div className='w-full border border-slate-200 rounded-full py-2.5 px-4 absolute bottom-0 bg-white flex gap-4'>
