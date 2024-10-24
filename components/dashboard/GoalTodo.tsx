@@ -1,6 +1,6 @@
 import { IconDashboardFlag } from '@/public/icons/IconDashboardFlag';
 import GoalTodoCard from './GoalTodoCard';
-import useGoalsQuery from '@/lib/hooks/useGoalQuery';
+import useGoalsQuery from '@/lib/hooks/useGoalsQuery';
 
 const GoalTodo = () => {
   const { data: goals } = useGoalsQuery({ size: 3 }); // 3로 고정, 이후 무한스크롤로 3개씩.
