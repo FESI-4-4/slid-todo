@@ -1,6 +1,6 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { Metadata } from 'next';
 import './globals.css';
-import NavBar from '@/components/Nav/NavBar';
 import QueryClientProviderWrapper from './_view/QueryClientProvider';
 
 export const metadata: Metadata = {
@@ -16,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body>
-        <QueryClientProviderWrapper>{children}</QueryClientProviderWrapper>
+        <QueryClientProviderWrapper>
+          {children}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProviderWrapper>
       </body>
     </html>
   );
