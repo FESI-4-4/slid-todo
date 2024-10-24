@@ -13,10 +13,37 @@ interface TodoIconProps {
 }
 
 const TodoIcon: React.FC<TodoIconProps> = ({ data }) => {
+  const handleDownloadFile = (fileUrl: string | null) => {
+    if (!fileUrl) return;
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = '';
+    link.target = '_blank';
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+  };
+
+  const handleOpenLink = (linkUrl: string | null) => {
+    if (!linkUrl) return;
+    window.open(linkUrl, '_blank', 'noopener,noreferrer');
+  };
   return (
     <div className='flex items-center gap-x-2'>
-      {data.fileUrl && <IconFile className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
-      {data.linkUrl && <IconLink className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
+      {data.fileUrl && (
+        <IconFile
+          className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer'
+          onClick={() => handleDownloadFile(data.fileUrl)}
+        />
+      )}
+      {data.linkUrl && (
+        <IconLink
+          className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer'
+          onClick={() => handleOpenLink(data?.linkUrl)}
+        />
+      )}
       {data.noteId && <IconNoteView className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />}
       <IconNoteWrite className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer' />
       <div className='flex justify-center items-center'>
