@@ -1,5 +1,3 @@
-'use client';
-
 import IconFile from '@/public/icons/IconFile';
 import IconLink from '@/public/icons/IconLink';
 import IconNoteView from '@/public/icons/IconNoteView';
@@ -7,12 +5,28 @@ import IconNoteWrite from '@/public/icons/IconNoteWrite';
 import DropdownMenu from '../DropdownMenu';
 import { IconKebabWithCircle } from '@/public/icons/IconKebabWithCircle';
 import { TodoItemData } from '.';
+import { useDeleteTodoMutation } from '@/lib/hooks/useDeleteTodoMutation';
 
 interface TodoIconProps {
   data: TodoItemData;
 }
 
 const TodoIcon: React.FC<TodoIconProps> = ({ data }) => {
+  const deleteTodo = useDeleteTodoMutation();
+
+  const handleDelete = () => {
+    // 삭제할지 모달을 띄워주면 좋겠음
+    deleteTodo.mutate({ todoId: data.id });
+  };
+
+  const handleDropdaownMenuClick = (item: string) => {
+    if (item === '수정하기') {
+      // 수정하기페이지로 이동
+    } else if (item === '삭제하기') {
+      handleDelete();
+    }
+  };
+
   const handleDownloadFile = (fileUrl: string | null) => {
     if (!fileUrl) return;
     const link = document.createElement('a');
@@ -50,7 +64,7 @@ const TodoIcon: React.FC<TodoIconProps> = ({ data }) => {
         <DropdownMenu
           icon={IconKebabWithCircle}
           dropdownList={['수정하기', '삭제하기']}
-          onItemClick={(item) => console.log(item)}
+          onItemClick={handleDropdaownMenuClick}
           className='hover:stroke-slate-100 hover:fill-slate-200 cursor-pointer transition-all duration-200 w-0 group-hover:w-auto group-focus-within:w-auto'
         />
       </div>
