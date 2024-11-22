@@ -1,5 +1,6 @@
 # 당신의 동료 Slid ToDo 
-효율적인 목표 관리와 체계적인 할 일 관리 서비스 Slid ToDo는 목표 설정과 할 일 관리에 필요한 모든 기능을 제공합니다. 목표부터 세부적인 할 일과 노트까지 체계적으로 관리하여 효율적인 작업 흐름을 만들어 보세요. 
+효율적인 목표 관리와 체계적인 할 일 관리 서비스 Slid ToDo는 목표 설정과 할 일 관리에 필요한 모든 기능을 제공합니다. 목표부터 세부적인 할 일과 노트까지 체계적으로 관리하여 효율적인 작업 흐름을 만들어 보세요.  
+  
 ![image](https://github.com/user-attachments/assets/06bf13cb-27a8-41e9-9f03-d299daf65e23)
 
 ## 배포 주소 [slid-todo-xi.vercel.app ](https://slid-todo-xi.vercel.app/) 
