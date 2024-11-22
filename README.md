@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 당신의 동료 Slid ToDo 
+효율적인 목표 관리와 체계적인 할 일 관리 서비스 > Slid ToDo는 목표 설정과 할 일 관리에 필요한 모든 기능을 제공합니다. 목표부터 세부적인 할 일과 노트까지 체계적으로 관리하여 효율적인 작업 흐름을 만들어 보세요. 
+![image](https://github.com/user-attachments/assets/06bf13cb-27a8-41e9-9f03-d299daf65e23)
 
-## Getting Started
+## 배포 주소 [slid-todo-xi.vercel.app ](https://slid-todo-xi.vercel.app/) 
 
-First, run the development server:
+## 🚀 기술 스택 프레임워크: 
+React.js    
+메타 프레임워크: Next.js 14(App Router)    
+개발 언어: Typescript    
+서버 상태 관리: TanStack Query v5    
+상태 관리: Zustand    
+유틸리티    
+  CSS: Tailwind CSS 
+  코드 포맷: Prettier, ESLint 
+  CI/CD: GitHub Actions 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# 주요 기능 
+## 사이드 메뉴
+### 유저 정보
+유저의 프로필 사진과 이름, 이메일을 확인할 수 있습니다.  
+로그아웃하면 로그인 페이지로 이동합니다.   
+로그아웃 상태에서는 [서비스 소개페이지](https://slid-todo-xi.vercel.app/)와 로그인 페이지만 접근 가능합니다. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 대시보드 
+### 최근 등록한 할 일
+최근 등록한 할 일을 4개까지 보여줍니다. 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### 할 일 컴포넌트  
+대시보드를 포함한 여러 페이지에서 공통으로 쓰이는 할 일 컴포넌트를 통해 완료 여부 변경, 할 일이 속한 목표, 등록한 파일과 링크, 사이드 시트로 노트 열람, 노트 생성/수정 페이지로 이동, 할 일 수정/삭제가 가능합니다. 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##### 파일 아이콘 
+할 일을 생성할 때 업로드한 파일을 다운로드할 수 있습니다. 
 
-## Learn More
+##### 
 
-To learn more about Next.js, take a look at the following resources:
+### 내 진행 상황
+사용자의 전체 할 일 중 완료된 할 일 비율을 도넛 차트로 표시합니다. 할 일 완료 여부 변경에 따라서 실시간으로 업데이트됩니다. 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 목표별 할 일
+목표별 할 일을 진행 중 상태와 미완료 상태별로 5개씩 보여줍니다. 더 많은 할 일이 있을 경우 더보기 버튼을 눌러서 5개 더 로드할 수 있습니다. 목표는 무한 스크롤 방식으로 로드됩니다.  
+목표명, 목표 내 할 일 추가 버튼, 진행률 그래프를 확인할 수 있습니다.  
+최근 등록한 할 일과 마찬가지로 완료 여부 변경 등의 작업을 할 수 있고, 데이터 변경 사항은 실시간으로 반영됩니다. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 목표 상세
+## 모든 할 일
+## 노트 모아보기
