@@ -12,8 +12,8 @@
 서버 상태 관리: TanStack Query v5    
 상태 관리: Zustand    
 유틸리티    
-  CSS: Tailwind CSS 
-  코드 포맷: Prettier, ESLint 
+  CSS: Tailwind CSS  
+  코드 포맷: Prettier, ESLint  
   CI/CD: GitHub Actions 
 
 # 주요 기능 
