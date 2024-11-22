@@ -1,6 +1,6 @@
 'use client';
 
-import useScrollStore from '@/lib/bear/scrollStore';
+import ModalManagerStore from '@/lib/bear/ModalManagerStore';
 import IconModalClose from '@/public/icons/IconModalClose';
 import {
   Children,
@@ -12,6 +12,7 @@ import {
   memo,
   PropsWithChildren,
   Ref,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -28,18 +29,64 @@ const ModalProvider = memo(
   ({
     isOpen: open,
     onChangeIsOpen,
+    beforeClose,
     children,
   }: PropsWithChildren<{ isOpen?: boolean; onChangeIsOpen?: (isOpen: boolean) => void; beforeClose?: () => void }>) => {
     const isControlled = open !== undefined;
     const [internalOpen, setInternalOpen] = useState(false);
     const isOpen = isControlled ? open : internalOpen;
-    const handleOpenChange = (newState: boolean) => {
-      if (!isControlled) {
-        setInternalOpen(newState);
+
+    const handleOpenChange = useCallback(
+      (newState: boolean) => {
+        if (!isControlled) {
+          setInternalOpen(newState);
+        }
+        onChangeIsOpen?.(newState);
+      },
+      [isControlled, onChangeIsOpen]
+    );
+
+    const { pushModal, popModal, modalStack } = ModalManagerStore();
+    const modalId = useRef<string>(Math.random().toString(36));
+
+    useEffect(() => {
+      if (isOpen) {
+        pushModal(modalId.current);
+      } else {
+        popModal();
       }
-      onChangeIsOpen?.(newState);
-    };
-    return <ModalContext.Provider value={{ isOpen, handleOpenChange }}>{children}</ModalContext.Provider>;
+
+      return () => {
+        popModal();
+      };
+    }, [isOpen, pushModal, popModal]);
+
+    useEffect(() => {
+      const handleKeyUpOnBody = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          const topModalId = modalStack[modalStack.length - 1];
+          if (topModalId === modalId.current) {
+            handleOpenChange(false);
+          }
+        }
+      };
+
+      if (isOpen) document.body.addEventListener('keyup', handleKeyUpOnBody);
+
+      return () => document.body.removeEventListener('keyup', handleKeyUpOnBody);
+    }, [handleOpenChange, isOpen, modalStack]);
+
+    return (
+      <ModalContext.Provider
+        value={{
+          isOpen,
+          handleOpenChange,
+          beforeClose,
+        }}
+      >
+        {children}
+      </ModalContext.Provider>
+    );
   }
 );
 
@@ -79,33 +126,11 @@ const ModalContent = memo(
   }: ComponentPropsWithoutRef<'div'> & { overlayClassName?: string; closeOnClickOverlay?: boolean }) => {
     const { isOpen, handleOpenChange } = useModalContext();
     const ref = useRef<HTMLDivElement | null>(null);
-
     const handleClickOverlay = () => {
       if (!closeOnClickOverlay) return;
       handleOpenChange(false);
     };
-    const { incrementModalCount, decrementModalCount } = useScrollStore();
-    useEffect(() => {
-      if (isOpen) {
-        incrementModalCount();
-      } else {
-        decrementModalCount();
-      }
 
-      return () => {
-        decrementModalCount();
-      };
-    }, [isOpen, incrementModalCount, decrementModalCount]);
-
-    useEffect(() => {
-      const handleKeyUpOnBody = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') handleOpenChange(false);
-      };
-
-      if (isOpen) document.body.addEventListener('keyup', handleKeyUpOnBody);
-
-      return () => document.body.removeEventListener('keyup', handleKeyUpOnBody);
-    }, [handleOpenChange, isOpen]);
     return (
       <>
         {isOpen &&
@@ -115,9 +140,10 @@ const ModalContent = memo(
               aria-modal='true'
               className={twMerge('fixed inset-0 flex justify-center items-center z-20', overlayClassName)}
               onClick={(e) => e.stopPropagation()}
+              ref={ref}
             >
               <div className='absolute inset-0 bg-black opacity-50' onClick={handleClickOverlay}></div>
-              <div className={twMerge('p-6 rounded-xl bg-white z-10', className)} ref={ref} {...props}>
+              <div className={twMerge('p-6 rounded-xl bg-white z-10', className)} {...props}>
                 {children}
               </div>
             </div>,

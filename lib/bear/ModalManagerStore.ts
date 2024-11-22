@@ -1,19 +1,19 @@
 import { create } from 'zustand';
 
-type ScrollStore = {
+type ModalManagerStore = {
   isScrollLocked: boolean;
-  openModalCount: number;
+  modalStack: string[];
   lockScroll: () => void;
   unlockScroll: () => void;
-  incrementModalCount: () => void;
-  decrementModalCount: () => void;
+  pushModal: (modalId: string) => void;
+  popModal: () => void;
 };
 
 let scrollPosition = 0;
 
-const useScrollStore = create<ScrollStore>((set, get) => ({
+const ModalManagerStore = create<ModalManagerStore>((set, get) => ({
   isScrollLocked: false,
-  openModalCount: 0,
+  modalStack: [],
   lockScroll: () => {
     if (typeof window === 'undefined') return;
 
@@ -40,20 +40,28 @@ const useScrollStore = create<ScrollStore>((set, get) => ({
     window.scrollTo(0, scrollPosition);
     set({ isScrollLocked: false });
   },
-  incrementModalCount: () => {
-    const currentCount = get().openModalCount;
-    if (currentCount === 0) {
+  pushModal: (modalId: string) => {
+    const currentStack = get().modalStack;
+
+    if (currentStack.length === 0) {
       get().lockScroll();
     }
-    set({ openModalCount: currentCount + 1 });
+
+    set({ modalStack: [...currentStack, modalId] });
   },
-  decrementModalCount: () => {
-    const currentCount = get().openModalCount;
-    if (currentCount <= 1) {
+  popModal: () => {
+    const currentStack = get().modalStack;
+
+    if (currentStack.length === 0) return;
+
+    const updatedStack = currentStack.slice(0, -1);
+
+    if (updatedStack.length === 0) {
       get().unlockScroll();
     }
-    set({ openModalCount: Math.max(0, currentCount - 1) });
+
+    set({ modalStack: updatedStack });
   },
 }));
 
-export default useScrollStore;
+export default ModalManagerStore;

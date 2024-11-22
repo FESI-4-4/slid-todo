@@ -1,4 +1,4 @@
-import useScrollStore from '@/lib/bear/scrollStore';
+import ModalManagerStore from '@/lib/bear/ModalManagerStore';
 import IconModalClose from '@/public/icons/IconModalClose';
 import {
   Children,
@@ -9,6 +9,7 @@ import {
   isValidElement,
   PropsWithChildren,
   Ref,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -37,12 +38,30 @@ const SheetProvider = ({
   const isControlled = open !== undefined;
   const [internalOpen, setInternalOpen] = useState(false);
   const isOpen = isControlled ? open : internalOpen;
-  const handleOpenChange = (newState: boolean) => {
-    if (!isControlled) {
-      setInternalOpen(newState);
+  const handleOpenChange = useCallback(
+    (newState: boolean) => {
+      if (!isControlled) {
+        setInternalOpen(newState);
+      }
+      onChangeIsOpen?.(newState);
+    },
+    [isControlled, onChangeIsOpen]
+  );
+
+  const { pushModal, popModal, modalStack } = ModalManagerStore();
+  const modalId = useRef<string>(Math.random().toString(36));
+
+  useEffect(() => {
+    if (isOpen) {
+      pushModal(modalId.current);
+    } else {
+      popModal();
     }
-    onChangeIsOpen?.(newState);
-  };
+
+    return () => {
+      popModal();
+    };
+  }, [isOpen, pushModal, popModal]);
 
   const [willBeClosed, setWillBeClosed] = useState(false);
 
@@ -50,14 +69,29 @@ const SheetProvider = ({
     handleOpenChange(true);
   };
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setWillBeClosed(true);
 
     setTimeout(() => {
       handleOpenChange(false);
       setWillBeClosed(false);
     }, 300);
-  };
+  }, [handleOpenChange]);
+
+  useEffect(() => {
+    const handleKeyUpOnBody = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        const topModalId = modalStack[modalStack.length - 1];
+        if (topModalId === modalId.current) {
+          handleClose();
+        }
+      }
+    };
+
+    if (isOpen) document.body.addEventListener('keyup', handleKeyUpOnBody);
+
+    return () => document.body.removeEventListener('keyup', handleKeyUpOnBody);
+  }, [handleClose, isOpen, modalStack]);
 
   return (
     <SheetContext.Provider value={{ isOpen, handleOpen, handleClose, willBeClosed }}>{children}</SheetContext.Provider>
@@ -121,23 +155,10 @@ const SheetContent = ({
 
   const ref = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
-
   const handleClickOverlay = () => {
     if (!closeOnClickOverlay) return;
     handleClose();
   };
-  const { incrementModalCount, decrementModalCount } = useScrollStore();
-  useEffect(() => {
-    if (isOpen) {
-      incrementModalCount();
-    } else {
-      decrementModalCount();
-    }
-
-    return () => {
-      decrementModalCount();
-    };
-  }, [isOpen, incrementModalCount, decrementModalCount]);
 
   useEffect(() => {
     if (!ref.current || !overlayRef.current) return;
@@ -157,16 +178,6 @@ const SheetContent = ({
       overlayRef.current.classList.add('opacity-0');
     }
   }, [isOpen, position, transformProperties, willBeClosed]);
-
-  useEffect(() => {
-    const handleKeyUpOnBody = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
-    };
-
-    if (isOpen) document.body.addEventListener('keyup', handleKeyUpOnBody);
-
-    return () => document.body.removeEventListener('keyup', handleKeyUpOnBody);
-  }, [handleClose, isOpen]);
 
   return (
     <>
