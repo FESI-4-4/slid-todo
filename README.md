@@ -3,6 +3,16 @@
   
 <p align='center'><img src="https://github.com/user-attachments/assets/06bf13cb-27a8-41e9-9f03-d299daf65e23" width='800' height='400' /></p>
 
+<!--
+TODO: 처음 본 사람을 위해서 어떻게 프로젝트를 실행할 수 있는지 설명해주세요.
+ex) 
+## 실행 방법
+1. `yarn install`을 통해 필요한 패키지를 설치합니다.
+2. `yarn dev`를 통해 개발 서버를 실행합니다.
+3. `http://localhost:3000`으로 접속하여 프로젝트를 확인합니다.
+
+-->
+
 ## 배포 주소 [slid-todo-xi.vercel.app ](https://slid-todo-xi.vercel.app/) 
 
 ## 🚀 기술 스택 
