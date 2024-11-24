@@ -10,6 +10,7 @@ export default function DashboardPage() {
       <div className='hidden sm:block lg:block'>
         <PageHeader title='대시보드' />
       </div>
+      {/*TODO: flex flex-col 이 반복되는데 이런 경우엔 tailwind에 stack 이라는 클래스를 만들면 편합니다. */}
       <div className='w-full flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-6'>
         <RecentTodo />
         <Progress />

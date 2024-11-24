@@ -6,6 +6,25 @@ import NoteFormSection, { SavedNote } from './NoteFormSection';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
+// TODO: 타입이 반복되는데 좀 더 깔끔하게 리팩토링할 수 있는 방법이 있을까요?
+// NoteFormSection.tsx 에도 비슷한 타입이 있습니다.
+
+// interface NoteFormBase {
+//   title: string;
+//   content: string;
+//   linkUrl: string;
+// }
+//
+// interface NoteFormSectionsProps extends NoteFormBase {
+//   method: 'POST' | 'PATCH';
+//   noteId?: string;
+// }
+// 만약에 title이 optional이면
+// interface NoteFormSectionsProps extends Partial<NoteFormBase> {
+//   method: 'POST' | 'PATCH';
+//   noteId?: string;
+// }
+
 type NoteFormSectionsProps = {
   title?: string;
   content?: string;
