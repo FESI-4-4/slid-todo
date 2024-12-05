@@ -16,6 +16,7 @@ import IconTextHighlight from '@/public/icons/IconTextHighlight';
 const NoteFormEditorButtons = () => {
   const { editor } = useCurrentEditor();
 
+  // TODO: 코드가 반복되는데 좀 더 깔끔하게 리팩토링할 수 있는 방법이 있을까요?
   const handleBold = () => editor?.chain().focus().toggleBold().run();
   const handleItalics = () => editor?.chain().focus().toggleItalic().run();
   const handleUnderline = () => editor?.chain().focus().toggleUnderline().run();
