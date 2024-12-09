@@ -8,7 +8,7 @@ export default function NavLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='flex flex-col min-h-screen sm:flex-row lg:flex-row'>
+    <div className='flex min-h-screen'>
       <Nav />
       <div className='flex-1 overflow-auto'>
         <PageContainer>{children}</PageContainer>
