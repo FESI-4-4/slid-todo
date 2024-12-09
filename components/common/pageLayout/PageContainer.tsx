@@ -44,7 +44,7 @@ const PageContainer = ({ children }: PageContainerProps) => {
   };
 
   return (
-    <main className={twMerge(clsx('w-full h-screen pt-[3.5rem] sm:pt-0', containerStyle[transformedUrl]))}>
+    <main className={twMerge(clsx('w-full h-full pt-[3.5rem] sm:pt-0', containerStyle[transformedUrl]))}>
       <section className={twMerge(clsx('h-full lg:px-20 sm:px-6 px-4 py-6', sectionStyle[transformedUrl]))}>
         {children}
       </section>

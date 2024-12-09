@@ -10,7 +10,7 @@ export default function NavLayout({
   return (
     <div className='flex flex-col min-h-screen sm:flex-row lg:flex-row'>
       <Nav />
-      <div className='flex-1'>
+      <div className='flex-1 overflow-auto'>
         <PageContainer>{children}</PageContainer>
       </div>
       <ScrollToTop />
