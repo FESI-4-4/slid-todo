@@ -122,7 +122,7 @@ const NoteFormSections = ({
           </div>
         </section>
       )}
-      <section className='lg:max-w-[800px] w-full h-full p-4 md:p-6 lg:py-6 lg:px-10 flex flex-col grow'>
+      <section className='lg:max-w-[800px] w-full h-full flex flex-col grow'>
         <NoteFormSection
           content={content}
           linkUrl={linkUrl}
